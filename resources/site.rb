@@ -28,3 +28,8 @@ attribute :protocol, :kind_of => Symbol, :default => :http, :equal_to => [:http,
 attribute :host_header, :kind_of => String, :default => nil
 
 attr_accessor :exists, :running
+
+def initialize(*args)
+  super
+  @action = :start
+end
