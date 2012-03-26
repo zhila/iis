@@ -24,15 +24,16 @@ include Chef::Mixin::ShellOut
 include Windows::Helper
 
 action :add do
-	unless @current_resource.exists
-	cmd = "#{appcmd} add app /site.name:\"#{@new_resource.app_name}\""
-	cmd << " /path:#{@new_resource.path}"
-	cmd << " /applicationPool:#{@new_resource.application_pool}"
-	cmd << " /physicalPath:\"#{@new_resource.physical_path}\""
-	Chef::Log.debug(cmd)
-	shell_out!(cmd)
-	Chef::Log.info("App created")
-	else
+  unless @current_resource.exists
+    cmd = "#{appcmd} add app /site.name:\"#{@new_resource.app_name}\""
+    cmd << " /path:#{@new_resource.path}"
+    cmd << " /applicationPool:#{@new_resource.application_pool}"
+    cmd << " /physicalPath:\"#{@new_resource.physical_path}\""
+    Chef::Log.debug(cmd)
+    shell_out!(cmd)
+    Chef::Log.info("App created")
+    new_resource.updated_by_last_action(true)
+  else
     Chef::Log.debug("#{@new_resource} app already exists - nothing to do")
   end
 end

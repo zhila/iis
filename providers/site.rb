@@ -32,7 +32,7 @@ action :add do
     cmd << ":#{@new_resource.port}:" if @new_resource.port
     cmd << @new_resource.host_header if @new_resource.host_header
     shell_out!(cmd, {:returns => [0,42]})
-    @new_resource.updated_by_last_action(true)
+    new_resource.updated_by_last_action(true)
     Chef::Log.info("#{@new_resource} added new site '#{@new_resource.site_name}'")
   else
     Chef::Log.debug("#{@new_resource} site already exists - nothing to do")
@@ -42,7 +42,7 @@ end
 action :delete do
   if @current_resource.exists
     shell_out!("#{appcmd} delete site /site.name:\"#{site_identifier}\"", {:returns => [0,42]})
-    @new_resource.updated_by_last_action(true)
+    new_resource.updated_by_last_action(true)
     Chef::Log.info("#{@new_resource} deleted")
   else
     Chef::Log.debug("#{@new_resource} site does not exist - nothing to do")
@@ -52,7 +52,7 @@ end
 action :start do
   unless @current_resource.running
     shell_out!("#{appcmd} start site /site.name:\"#{site_identifier}\"", {:returns => [0,42]})
-    @new_resource.updated_by_last_action(true)
+    new_resource.updated_by_last_action(true)
     Chef::Log.info("#{@new_resource} started")
   else
     Chef::Log.debug("#{@new_resource} already running - nothing to do")
@@ -62,7 +62,7 @@ end
 action :stop do
   if @current_resource.running
     shell_out!("#{appcmd} stop site /site.name:\"#{site_identifier}\"", {:returns => [0,42]})
-    @new_resource.updated_by_last_action(true)
+    new_resource.updated_by_last_action(true)
     Chef::Log.info("#{@new_resource} stopped")
   else
     Chef::Log.debug("#{@new_resource} already stopped - nothing to do")
@@ -73,7 +73,7 @@ action :restart do
   shell_out!("#{appcmd} stop site /site.name:\"#{site_identifier}\"", {:returns => [0,42]})
   sleep 2
   shell_out!("#{appcmd} start site /site.name:\"#{site_identifier}\"", {:returns => [0,42]})
-  @new_resource.updated_by_last_action(true)
+  new_resource.updated_by_last_action(true)
   Chef::Log.info("#{@new_resource} restarted")
 end
 

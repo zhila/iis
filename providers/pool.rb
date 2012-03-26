@@ -30,7 +30,7 @@ action :add do
 	cmd << " /managedPipelineMode:#{@new_resource.pipeline_mode}" if @new_resource.pipeline_mode
 	Chef::Log.debug(cmd)
 	shell_out!(cmd)
-	@new_resource.updated_by_last_action(true)
+	new_resource.updated_by_last_action(true)
 	Chef::Log.info("App pool created")
   else
     Chef::Log.debug("#{@new_resource} pool already exists - nothing to do")
@@ -56,7 +56,7 @@ end
 action :delete do
   if @current_resource.exists
     shell_out!("#{appcmd} delete apppool \"#{site_identifier}\"")
-    @new_resource.updated_by_last_action(true)
+    new_resource.updated_by_last_action(true)
     Chef::Log.info("#{@new_resource} deleted")
   else
     Chef::Log.debug("#{@new_resource} pool does not exist - nothing to do")
@@ -66,7 +66,7 @@ end
 action :start do
   unless @current_resource.running
     shell_out!("#{appcmd} start appool \"#{site_identifier}\"")
-    @new_resource.updated_by_last_action(true)
+    new_resource.updated_by_last_action(true)
     Chef::Log.info("#{@new_resource} started")
   else
     Chef::Log.debug("#{@new_resource} already running - nothing to do")
@@ -76,7 +76,7 @@ end
 action :stop do
   if @current_resource.running
     shell_out!("#{appcmd} stop appool \"#{site_identifier}\"")
-    @new_resource.updated_by_last_action(true)
+    new_resource.updated_by_last_action(true)
     Chef::Log.info("#{@new_resource} stopped")
   else
     Chef::Log.debug("#{@new_resource} already stopped - nothing to do")
@@ -87,7 +87,7 @@ action :restart do
   shell_out!("#{appcmd} stop APPPOOL \"#{site_identifier}\"")
   sleep 2
   shell_out!("#{appcmd} start APPPOOL \"#{site_identifier}\"")
-  @new_resource.updated_by_last_action(true)
+  new_resource.updated_by_last_action(true)
   Chef::Log.info("#{@new_resource} restarted")
 end
 

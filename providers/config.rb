@@ -27,6 +27,7 @@ action :config do
 	Chef::Log.debug("#{appcmd} set config #{@new_resource.cfg_cmd}")
 	shell_out!("#{appcmd} set config #{@new_resource.cfg_cmd}")
 	Chef::Log.info("IIS Config command run")	
+  new_resource.updated_by_last_action(true)
 end
 
 private
